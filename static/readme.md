@@ -1,0 +1,1 @@
+Chứa các file tĩnh, không được webpack xử lý mà được copy trực tiếp khi build.

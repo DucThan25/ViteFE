@@ -1,0 +1,10 @@
+<div class="combobox-grid" tabindex="0" ref="comboboxGrid" v-click-outside="hide" @keydown="comboboxGrid_keyDown">
+  <div class="select-custom" :class="enabled ? '' : 'select-disabled'" @click="input_Click">
+    <input type="text" ref="comboboxGridInput" class=" form-control" :value="textSelected" readonly :placeholder="placeHolder" />
+    <input type="hidden" :value="valueSelected" />
+  </div>
+  <div class="grid-panel" v-show="expanded">
+    <DataGrid v-bind:columns="gridColumns" ref="grid" v-bind:dataSource="dataSource" :showFilter="showFilter" :enabledSelectFirstRow="enabledSelectFirstRow" :defaultColumnCheckboxChecked="defaultColumnCheckboxChecked"
+      @selectedItemsChanged="dataGrid_selectedRowChanged" :showDropArea="showDropArea" :panelDataHeight="gridPanelDataHeight" :showColumnCheckbox="showColumnCheckbox" @rowClicked="dataGrid_rowClicked" :allowPaging="allowPaging" :enablePagingServer="enablePagingServer"></DataGrid>
+  </div>
+</div>

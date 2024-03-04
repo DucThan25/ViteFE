@@ -1,0 +1,26 @@
+<tr :class="rowCssClass" @click="rowClick(rowIndex, dataItem)" @dblclick="rowDoubleClick(rowIndex, dataItem)">
+  <td v-if="GroupedValue != null"
+    class="tree-first w20 bg-white">
+    <div class="tree-line"></div>
+    <div class="tree-indent"></div>
+  </td>
+  <td class="w20 center">
+    <span class="fa fa-play text-main" v-if="isSelectedRow"></span>
+  </td>
+  <td v-if="showColumnCheckbox" class="center w20">
+    <div class="check-action"><input type="checkbox" class="check" v-model="rowChecked"
+        @change="rowCheckedChanged"><span class="name"></span></div>
+  </td>
+  <td v-if="CommandColumn.show && CommandColumn.firstColumn" :class="CommandColumn.cellCssClass">
+    <button v-for="command in Commands" :class="command.cssClass" :width="command.width + 'px'"
+      @click="command_OnClick(command.name, dataItem)">{{command.text}}</button>
+  </td>
+  <template v-for="column in rowDataColumns">
+    <DataGridCell :column="column" :cellCreatedEventEnabled="column.cellCreatedEventEnabled" :dataItem="dataItem"
+      :cssClass="getCellCssClass(column)" @dataGridCellCreated="dataGridCellCreated"></DataGridCell>
+  </template>
+  <td v-if="CommandColumn.show && !CommandColumn.firstColumn" :class="CommandColumn.cellCssClass">
+    <button v-for="command in Commands" :class="command.cssClass" :width="command.width + 'px'"
+      @click="command_OnClick(command.name, dataItem)">{{command.text}}</button>
+  </td>
+</tr>

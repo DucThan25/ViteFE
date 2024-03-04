@@ -1,0 +1,46 @@
+<div :class="gridCssClass">
+  <ejs-grid ref="grid" :dataSource="dataItems" :childGrid="childGrid" :allowPaging="false" :allowSorting="allowSorting" :allowFiltering="showFilter"
+    :filterSettings="{showFilterBarOperator: false, mode: 'OnEnter', immediateModeDelay: 500}" locale="vi-VN"
+    :allowSelection="true" :selectionSettings="selectionOptions" :allowResizing="allowResizing" gridLines="Both"
+    :allowGrouping="allowGrouping" :groupSettings="groupSettings" :height="getHeight" @recordClick="grid_RecordClick"
+    @recordDoubleClick="grid_RecordDoubleClick" @rowSelected="grid_RowSelected" @rowDeselected="grid_RowDeselected"
+    @actionComplete="grid_ActionComplete" @dataBound="grid_DataBound" @commandClick="grid_CommandClick"
+    clipMode="EllipsisWithTooltip" :width="width" :allowTextWrap="allowTextWrap" :allowExcelExport="allowExcelExport"
+    :editSettings="editSettings" @actionBegin="grid_ActionBegin" @queryCellInfo="grid_QueryCellInfo"
+    @cellSelected="grid_cellSelected" @cellSaved="grid_cellSaved" @created="grid_created"
+    :contextMenuItems="contextMenuItems" @contextMenuClick="grid_contextMenuClick" @detailDataBound="grid_detailDataBound" @rowDataBound="grid_rowDataBound">
+    <e-columns>
+      <e-column template="<span class='fa selected-flag'></span>" :allowFiltering="false" filterTemplate="<span></span>"
+        width="26" maxWidth="26" minWidth="26" textAlign="center" :customAttributes="{class: 'column-selected-flag'}"
+        :freeze='getColumnCheckboxFreeze' :allowResizing="false" clipMode="Ellipsis"></e-column>
+      <e-column type="checkbox" width="39" maxWidth="39" minWidth="39" headerTextAlign="center" textAlign="center"
+        v-if="showColumnCheckbox" :customAttributes="{class: 'column-check-selected'}"
+        :freeze='getColumnCheckboxFreeze' :allowResizing="false" clipMode="Ellipsis"></e-column>
+      <template v-for="column in getColumns">
+        <e-column :field="column.fieldName" :headerText="column.headerText" :type="column.columnType"
+          :format="column.columnFormat" :headerTemplate="column.headerTemplate" :isPrimaryKey="column.isPrimaryKey"
+          :filterTemplate="column.filterTemplate" :filter="{ operator: 'contains' }" :width="column.width"
+          :allowFiltering="column.allowFiltering" :textAlign="column.textAlign" :freeze="column.freeze"
+          :visible="column.visible" :commands="column.commands" :template="column.template"
+          :disableHtmlEncode="column.disableHtmlEncode" :clipMode="column.clipMode" :columns="column.columns"
+          :customAttributes="column.customAttributes" :minWidth="column.minWidth" :allowEditing="column.allowEditing"
+          :validationRules="column.validationRules" :editType="column.editType"
+          headerTextAlign="center">
+        </e-column>
+      </template>
+    </e-columns>
+    <e-aggregates v-if="useAggregates">
+      <e-aggregate>
+        <e-columns>
+          <template v-for="column in getAggregateColumns">
+            <e-column :field="column.field" :type="column.type" :format="column.format" :footerTemplate="column.footerTemplate" :customAggregate="column.customAggregateFn"> </e-column>
+          </template>
+        </e-columns>
+      </e-aggregate>
+    </e-aggregates>
+  </ejs-grid>
+  <div class="grid-empty-row" v-if="(!hasData && hasFreeze) || (!hasData && allowGrouping)" :style="panelEmptyRecordsStyles">Không có bản ghi nào để hiển
+    thị</div>
+  <Pagination ref="pagination" :pageSize="pageSize" :pageIndex="pageIndex" :totalRecords="getTotalRecords"
+    @pageChanged="pagination_PageChanged" v-if="allowPaging" :commands="paginationCommands" @commandClick="pagination_CommandClick"></Pagination>
+</div>

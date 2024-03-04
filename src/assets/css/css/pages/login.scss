@@ -1,0 +1,218 @@
+.login-wrapper{
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    right: 0px;
+    left: 0px;
+    height: 100vh;
+    overflow-y: auto;
+    .img{
+        width: 32px;
+        height: 32px;
+        object-fit: contain;
+        margin-right: 5px;
+        display: inline-block;
+    }
+    .text{
+        display: inline-block;
+    }
+    .logo{
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        z-index: 10;
+        font-size: 22px;
+        text-transform: uppercase;
+        font-weight: bold;
+        color: #fff;
+        
+    }
+    .bg{
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+        bottom: 0px;
+        background-size: cover;
+        background-position: center;
+        
+    }
+    .box-login{
+        position: absolute;
+        top: 50%;
+        max-width:450px;
+        left: auto;
+        right: 10%;
+        padding: 30px;
+        z-index: 10;
+        margin: auto;
+        transform: translateY(-50%);
+        background: #fff;
+        border-radius: 8px;
+        border:1px solid rgba(#fff,0.3);
+        background: #0337A6;
+        overflow: hidden;
+    }
+    .head{
+        text-align: center;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        color: $second;
+        text-transform: uppercase;
+        margin-bottom: 30px;
+        font-weight: bold;
+        font-size: 28px;
+        color: #fff;
+        
+    }
+    .form-group{
+        margin-bottom: 20px;
+    }
+    .actions{
+        margin-top: 40px;
+        .btn{
+            width: 100%;
+            padding:10px 10px;
+            background: $second;
+            color: #fff;
+            text-transform: uppercase;
+            &:hover{
+                background: $main;
+            }
+        }
+    }
+    .input-icon{
+        position: relative;
+        .form-control{
+            padding-left: 30px;
+        }
+        .icon{
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: $second;
+        }
+        &.-show{
+            .form-control{
+                padding-right: 30px;
+            }
+            .icon-show{
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                cursor: pointer;
+                color: #82858A;
+                font-size: 16px;
+            }
+        }
+        &.-captcha{
+            .form-control{
+                padding-right: 140px;
+    
+            }
+            .captcha{
+                width: 130px;
+                padding: 5px 10px;
+                text-align: center;
+                letter-spacing: 3px;
+                position: absolute;
+                top: 0px;
+                right: 0px;
+                background: #E9EBF0;
+                font-weight: bold;
+                font-family: serif;
+                color: rgba(#292D34,0.5);
+            }
+            .refresh{
+                position: absolute;
+                top: 5px;
+                border-left: 1px solid $border;
+                padding: 7px 10px;
+                right: 10px;
+                color: $second;
+                &:hover{
+                    color: $main;
+                }
+            }
+        }
+    }
+    .form-control{
+        background: #fff;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        height: auto;
+        &:focus{
+            box-shadow: 0px 2px 6px rgba(#fff,0.4);
+            
+        }
+        
+    }
+    .copyright{
+        position: absolute;
+        bottom: 0px;
+        left: 0px;
+        padding: 10px;
+        text-transform: uppercase;
+        color: #fff;
+        font-size: 16px;
+        font-weight: bold;
+        text-align: center;
+        
+    }
+}
+
+@media(max-width:991px){
+    .login-wrapper{
+        padding: 20px;
+    }
+    .login-wrapper .logo{
+        position: relative;
+        top: 0px;
+        left: 0px;
+        text-align: center;
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+    .login-wrapper .head{
+        font-size: 20px;
+    }
+    .login-wrapper .box-login{
+        padding: 20px;
+        left: 0px;
+        right: 0px;
+    }
+}
+
+@media(max-width:480px){
+    
+    .login-wrapper .text{
+        display: block;
+        margin-top: 10px;
+    }
+}
+@media(max-width:480px) and (max-height:460px){
+    .login-wrapper .box-login{
+        position: relative;
+        transform: none;
+        top: 0px;
+        margin-top: 20px;
+        padding: 20px;
+    }
+}
+@media(max-height:460px){
+    .login-wrapper .logo{
+        position: relative;
+        top: 0px;
+        left: 0px;
+    }
+    .login-wrapper .box-login{
+        position: relative;
+        top: 0px;
+        transform: none;
+    }
+    .login-wrapper .copyright{
+        position: relative;
+
+    }
+}

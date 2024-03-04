@@ -1,0 +1,291 @@
+.dashboard-header{
+	background: $main;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	color: #fff;
+	height: 52px;
+	z-index: 100;
+	padding: 3px 10px;
+	border-bottom: 1px solid rgba(#fff,0.05);
+	padding-left: 50px;
+	&:after{
+		content: "";
+		display: block;
+		clear: both;
+	}
+	.nav-toggle{
+		width: 40px;
+		height: 40px;
+		position: absolute;
+		top: 0px;
+		line-height: 40px;
+		left: 0px;
+		font-size: 24px;
+		display: inline-block;
+		cursor: pointer;
+		bottom: 0px;
+		margin: auto;
+		text-align: center;
+		.fa{
+			line-height: 40px;
+		}
+	}
+	.logo{
+		margin-top: 10px;
+		color: #fff;
+		display: inline-block;
+		.img{
+			display: inline-block;
+			vertical-align: middle;
+			margin-right: 5px;
+			
+		}
+		img{
+			height: 28px;
+			width: 28px;
+			object-fit: contain;
+		}
+		.text{
+			display: inline-block;
+			font-size: 16px;
+			vertical-align: middle;
+			text-transform: uppercase;
+			font-weight: bold;
+			color: #fff !important;
+
+		}
+	}
+	.menus-right{
+		.item{
+			display: inline-block;
+			vertical-align: middle;
+			margin-left: 20px;
+			padding: 5px 0px;
+			&:first-child{
+				margin-left: 0px;
+			}
+		}
+		.notify{
+			position: relative;
+			img{
+				width: 28px;
+				height: 28px;
+
+			}
+			.number{
+				position: absolute;
+				font-size: 0.7rem;
+				height: 16px;
+				line-height: 16px;
+				color: #fff;
+				background: #DA3545;
+				border-radius: 100px;
+				padding: 0px 5px;
+				right: -10px;
+				top: 0px;
+			}
+		}
+	}
+	.user-image{
+		position: relative;
+		padding-left: 40px;
+		.avatar{
+			position: absolute;
+			top: 0px;
+			left: 0px;
+		}
+		.username{
+			font-weight: bold;
+		}
+		.pos{
+			font-size: 10px;
+		}
+	}
+	@media(max-width:768px){
+		.logo{
+			.text{
+				display: none;
+			}
+		}
+		.user-image{
+			height: 40px;
+			.username,.pos{
+				display: none;
+			}
+		}
+	}
+
+}
+
+.sidebar{
+	position: absolute;
+	top: 52px;
+	left: -100%;
+	opacity: 0;
+	visibility: hidden;
+	transition:all 0.3s ease;
+	bottom: 0px;
+	background: #fff;
+	z-index: 100;
+	overflow: auto;
+	width: 260px;
+	.search{
+		position: relative;
+		border-bottom: 1px solid #BAE7FF;
+
+		.icon{
+			position: absolute;
+			top: 10px;
+			left: 10px;
+			color: $textD;
+		}
+		.form-control{
+			height: 40px;
+			border-radius: 0px;
+			border: 0px;
+			padding-left: 30px;
+		}
+	}
+	&.show{
+		left: 0px;
+		visibility: visible;
+		opacity: 1;
+		transition:all 0.3s ease;
+	}
+	ul{
+		list-style: none;
+		padding: 0px;
+		margin: 0px;
+		padding-left: 5px;
+	}
+	.menus{
+		position: relative;
+		&:before{
+			content: "";
+			left: 20px;
+			position: absolute;
+			top: 0px;
+			bottom: 0px;
+			width: 1px;
+			border-left: 1px dashed $second;
+		}
+		.icon{
+			color: $second;
+		}
+		.down{
+			display: block;
+			width: 20px;
+			height: 20px;
+			line-height: 20px;
+			text-align: center;
+			font-family: ap;
+			position: absolute;
+			top: 5px;
+			right: 10px;
+			color: #8c8c8c;
+			cursor: pointer;
+			&:before{
+				content: "\e6b8";
+			}
+		}
+		a{
+			display: block;
+			padding: 7px 15px;
+			color: $text;
+			position: relative;
+			text-decoration: none;
+			&:hover{
+				color: $second;
+			}
+			.icon{
+				position: absolute;
+				top: 5px;
+				font-size: 16px;
+				left: -12px;
+			}
+		}
+		ul{
+			display: none;
+			padding-left: 0px;
+		}
+		li{
+			padding-left: 20px;
+			position: relative;
+			&.haschild{
+				>a{
+					padding-right: 20px;
+				}
+			}
+			&.open{
+				>a{
+					font-weight: 500;
+
+
+				}
+				>.down{
+					&:before{
+						content: "\e6bb";
+					}
+				}
+				>ul{
+					display: block;
+				}
+			}
+			&.active{
+				>a{
+					background: rgba($second,0.1);
+					&:after{
+						width: 4px;
+						top: 0px;
+						bottom: 0px;
+						content: "";
+						position: absolute;
+						background: $second;
+						right: 0px;
+					}
+				}
+			}
+		}
+		>li{
+			>ul{
+				>li{
+					&:before{
+						width: 20px;
+						content: "";
+						position: absolute;
+						top: 16px;
+						left: -5px;
+						height: 1px;
+						border-top: 1px dashed $second;
+					}
+					&:after{
+						content: "";
+					    width: 4px;
+					    height: 4px;
+					    position: absolute;
+					    top: 15px;
+					    left: 23px;
+					    background: $second;
+					    transform: rotate(45deg);
+					}
+					ul{
+						a{
+							&:before{
+								content: "";
+								width: 4px;
+								height: 4px;
+								position: absolute;
+								background: $second;
+								transform:rotate(45deg);
+								top: 12px;
+								left: 0px;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

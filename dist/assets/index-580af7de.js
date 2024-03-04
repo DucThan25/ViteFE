@@ -1,0 +1,1 @@
+import{_ as t,o,c as s,t as n}from"./index-2ffd6dfa.js";const _={name:"HelloWorld",data(){return{msg:"Welcome to Your Vue.js App"}}},a={id:"binding-data"};function c(d,r,i,p,e,l){return o(),s("div",a,n(e.msg),1)}const m=t(_,[["render",c],["__scopeId","data-v-6d9156a5"]]);export{m as default};

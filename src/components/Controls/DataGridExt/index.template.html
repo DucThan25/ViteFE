@@ -1,0 +1,24 @@
+<div :class="gridCssClass">
+  <ejs-grid ref="grid" :dataSource="dataItems" :allowPaging="false" :allowSorting="true" :allowFiltering="showFilter"
+    :filterSettings="{showFilterBarOperator: false, mode: 'Immediate', immediateModeDelay: 500}" locale="vi-VN"
+    :allowSelection="true" :selectionSettings="selectionOptions" :allowResizing="true" gridLines="Both"
+    :allowGrouping="allowGrouping" :groupSettings="groupSettings" :height="panelDataHeight"
+    @rowDeselecting="grid_RowDeselecting" @recordClick="grid_RecordClick" @recordDoubleClick="grid_RecordDoubleClick" @rowSelected="grid_RowSelected">
+    <e-columns>
+      <e-column template="<span class='fa selected-flag'></span>" :allowFiltering="false" filterTemplate="<span></span>"
+        width="26" textAlign="center" :customAttributes="{class: 'column-selected-flag'}"
+        :freeze="hasFreezeLeft ? 'Left': null"></e-column>
+      <e-column type="checkbox" width="39" headerTextAlign="center" textAlign="center" v-if="showColumnCheckbox"
+        :customAttributes="{class: 'column-check-selected'}" :freeze="hasFreezeLeft ? 'Left': null"></e-column>
+      <template v-for="column in getColumns">
+        <e-column :field="column.fieldName" :headerText="column.headerText" type="string"
+          :filter="{ operator: 'contains' }" :width="column.width" :allowFiltering="column.allowFiltering"
+          :textAlign="getColumnTextAlign(column)" :freeze="getColumnFreeze(column)" headerTextAlign="center">
+        </e-column>
+      </template>
+    </e-columns>
+  </ejs-grid>
+  <div class="grid-empty-row" v-if="!hasData">Không có bản ghi nào để hiển thị</div>
+  <Pagination ref="pagination" :pageSize="pageSize" :pageIndex="pageIndex" :totalRecords="getTotalRecords"
+    @pageChanged="pagination_PageChanged" v-if="allowPaging"></Pagination>
+</div>

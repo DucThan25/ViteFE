@@ -1,0 +1,19 @@
+// khai báo 1 store
+import { actions } from './actions'
+import { getters } from './getters'
+import { mutations } from './mutations'
+
+const state = {
+  user: {},
+  accessToken: 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF9uaGFudmllbl9kaHN4IjoiMTM0MzEiLCJpZGVudGlmeSI6IjYyPzY0NjU0PDQ2NTM0MzUzNTU8NTcxPDE2MjY1PDA1NzA3NT81NzA3NT81PDI_Nz8_PT09PT09PyIsIm1hX3RpbmgiOiJIUEciLCJ1c2VyX25hbWUiOiJURVNUX0FQUC5IUEciLCJncm91cElkIjoiMCIsImlzcyI6Imh0dHA6Ly9xdWFudHJpL29hdXRoL3Rva2VuX2tleSIsImF1dGhvcml0aWVzIjpbIlBSRV9BVVRIIl0sImlkX2RvbnZpIjoiMTg2IiwiY2xpZW50X2lkIjoiY2xpZW50YXBwIiwiYXVkIjpbInJlc3RzZXJ2aWNlIl0sInNjb3BlIjpbInJlYWQiLCJ3cml0ZSJdLCJtYV9uaGFudmllbl9jY2JzIjpudWxsLCJzZWxsaW5nRGVwYXJ0bWVudElkIjoiMCIsImNzc19zY2giOiJDU1NfSFBHLiIsImV4cCI6MTYyOTEzNjQ4MCwibWFfbnYiOiJkaHN4X2l0MyIsImlkX3Rpbmh0aGFuaCI6IjI2Iiwibmd1b2lkdW5nX2lkIjoiOTk5OTk5In0.qdlhhV9Ngj0WbCbnBBiaYG6iXIuzY0HYfpR3xRj3cjE48vXYp_4dnE35_lPGsv8VTzo390sFtuN9ZZJBehAAIsBvNcJYhnr5cx-sI7gx6vYQg-Gj48gq6XXaUEva5M2rUDU_jAxMpXPQSrxbpcxbTu0Z7UkBgMBXo9EEcXU636S_lrvZDEt22acO6eQNOi8IeIxiwCof0JxPjVaFFu1cJwwfAVdRo63GJbLf_nE2JvHDPMeQhKxLWBTMtesfvX4S5OOnUHFoSQmyzGghW3V-Nh9KvqzsQ2X658R2i2i1wCjhA_GqCxmM8gsLSelKy-_tgs0XHm2xkZyg7VVEJANSuw'
+}
+
+const namespaced = true
+
+export const user = {
+  namespaced,
+  state,
+  getters,
+  actions,
+  mutations
+}

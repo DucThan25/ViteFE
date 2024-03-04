@@ -1,0 +1,185 @@
+<div class="grid">
+  <div class="table-content" :style="panelDataStyle">
+    <table
+      :class="!(getGroupedValues == null || getGroupedValues.length == 0) ? 'table-result tree-grid-2 table-gachle': 'table-result table-gachle'"
+      v-if="!(columns == null || columns.length == 0)">
+      <thead class="center">
+        <tr>
+          <th class="w20"></th>
+          <th v-if="getCommandColumn.show && getCommandColumn.firstColumn">
+            {{getCommandColumn.headerText}}
+          </th>
+          <th v-if="showSelectColumn()" class="center w20" :colspan="selectColumnColumnSpan()">
+            <div class="check-action" v-if="showColumnCheckbox"><input type="checkbox" class="check"
+                v-model="selectAllItem"><span class="name"></span></div>
+          </th>
+          <template v-for="column in columns">
+            <th v-if="!(column.isGroupedColumn == true)" :width="column.width">
+              <div class="cell-header">
+                <span class="header-title">
+                  {{ column.headerText }}
+                </span>
+                <button class="btn-sort fa fa-sort" v-if="column.allowSorting != false"
+                  @click="columnButtonSort_Click(column.fieldName, $event)"></button>
+              </div>
+            </th>
+          </template>
+          <th v-if="getCommandColumn.show && !getCommandColumn.firstColumn">
+            {{getCommandColumn.headerText}}
+          </th>
+        </tr>
+        <tr v-if="!(!showFilter)">
+          <th class="w20"></th>
+          <th v-if="getCommandColumn.show && getCommandColumn.firstColumn"></th>
+          <th v-if="showSelectColumn()" class="center w20" :colspan="selectColumnColumnSpan()"></th>
+          <template v-for="column in columns">
+            <th v-if="!(column.isGroupedColumn == true)">
+              <div v-if="column.allowFiltering" class="input-icon-right">
+                <input type="text" class="form-control" @keyup="filterChange()"
+                  v-model="filterValues[column.fieldName]" />
+                <span class="icon nc-icon-outline ui-1_zoom"></span>
+              </div>
+            </th>
+          </template>
+          <th v-if="getCommandColumn.show && !getCommandColumn.firstColumn"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <template v-if="dataItems == null || dataItems.length == 0">
+          <tr class="empty text-center">
+            <td :colspan="getColumnsCount">
+              Không có bản ghi nào để hiển thị
+            </td>
+          </tr>
+        </template>
+        <template v-else-if="!(getGroupedValues == null || getGroupedValues.length == 0)"
+          v-for="(groupedValue) in getGroupedValues">
+          <tr class="tree-open">
+            <td :colspan="getColumnsCount" class="font-weight-bold">
+              <div class="tree-arrow"></div>
+              {{ groupedValue.text }}: {{ groupedValue.value }}
+            </td>
+          </tr>
+          <template v-for="(dataItem, index) in dataItems">
+            <tr v-if="groupedValue.value == dataItem[groupedValue.field]"
+              :class="[(currentSelectedRow == index) ? 'highlight1' : '', selectedValues.includes(dataItem[dataKeyField]) ? 'text-bold-duy': '']" @click="rowClick(index, dataItem)"
+              @dblclick="rowDoubleClick(index, dataItem)">
+              <td class="tree-first w20 bg-white">
+                <div class="tree-line"></div>
+                <div class="tree-indent"></div>
+              </td>
+              <td class="w20 center">
+                <span class="fa fa-play text-main" v-if="currentSelectedRow == index"></span>
+              </td>
+              <td v-if="showColumnCheckbox" class="center w20">
+                <div class="check-action"><input type="checkbox" :value="dataItem[dataKeyField]" class="check"
+                    v-model="selectedValues"><span class="name"></span></div>
+              </td>
+              <td v-if="getCommandColumn.show && getCommandColumn.firstColumn" :class="getCommandColumn.cellCssClass">
+                <button v-for="command in getCommands" :width="command.width + 'px'"
+                  @click="command_OnClick(command.name, dataItem)" :class="command.cssClass">{{command.text}}</button>
+              </td>
+              <template v-for="column in getColumns">
+                <DataGridCell v-if="!(column.isGroupedColumn == true)" :column="column" :cellCreatedEventEnabled="column.cellCreatedEventEnabled" :dataItem="dataItem" :cssClass="getCellCssClass(column)" @dataGridCellCreated="dataGridCellCreated"></DataGridCell>
+              </template>
+              <!-- <template v-for="column in getColumns">
+                <td v-if="!(column.isGroupedColumn == true)" :class="getCellCssClass(column)">
+                  <template v-if="column.allowHtml">
+                    <span v-html="dataItem[column.fieldName]"></span>
+                  </template>
+                  <template v-else>
+                    {{ dataItem[column.fieldName] }}
+                  </template>
+                </td>
+              </template> -->
+              <td v-if="getCommandColumn.show && !getCommandColumn.firstColumn" :class="getCommandColumn.cellCssClass">
+                <button v-for="command in getCommands" :width="command.width + 'px'"
+                  @click="command_OnClick(command.name, dataItem)" :class="command.cssClass">{{command.text}}</button>
+              </td>
+            </tr>
+          </template>
+        </template>
+        <template v-else v-for="(dataItem, index) in dataItems">
+          <tr :class="[(currentSelectedRow == index) ? 'highlight1' : '', selectedValues.includes(dataItem[dataKeyField]) ? 'text-bold-duy': '']" @click="rowClick(index, dataItem)"
+            @dblclick="rowDoubleClick(index, dataItem)">
+            <td class="w20 center">
+              <span class="fa fa-play text-main" v-if="currentSelectedRow == index"></span>
+            </td>
+            <td v-if="showColumnCheckbox" class="center w20">
+              <div class="check-action"><input type="checkbox" :value="dataItem[dataKeyField]" class="check"
+                  v-model="selectedValues"><span class="name"></span></div>
+            </td>
+            <td v-if="getCommandColumn.show && getCommandColumn.firstColumn" :class="getCommandColumn.cellCssClass">
+              <button v-for="command in getCommands" :class="command.cssClass" :width="command.width + 'px'"
+                @click="command_OnClick(command.name, dataItem)">{{command.text}}</button>
+            </td>
+            <template v-for="column in getColumns">
+              <DataGridCell :column="column" :cellCreatedEventEnabled="column.cellCreatedEventEnabled" :dataItem="dataItem" :cssClass="getCellCssClass(column)" @dataGridCellCreated="dataGridCellCreated"></DataGridCell>
+            </template>
+            <!-- <td v-for="column in getColumns" :class="getCellCssClass(column)">
+              <template v-if="column.allowHtml">
+                <span v-html="dataItem[column.fieldName]"></span>
+              </template>
+              <template v-else>
+                {{ dataItem[column.fieldName] }}
+              </template>
+            </td> -->
+            <td v-if="getCommandColumn.show && !getCommandColumn.firstColumn" :class="getCommandColumn.cellCssClass">
+              <button v-for="command in getCommands" :class="command.cssClass" :width="command.width + 'px'"
+                @click="command_OnClick(command.name, dataItem)">{{command.text}}</button>
+            </td>
+          </tr>
+        </template>
+
+        <!-- <tr v-if="dataItems == null || dataItems.length == 0" class="empty">
+                    <td :colspan="getColumnsCount">
+                        Không có bản ghi nào để hiển thị
+                    </td>
+                </tr>
+                <tr v-else v-for="(dataItem, index) in dataItems"
+                    :class="(currentSelectedRow == index) ? 'highlight1' : ''" @click="rowClick(index, dataItem)" @dblclick="rowDoubleClick(index, dataItem)">
+                    <td class="w20 center">
+                        <span class="fa fa-play text-main" v-if="currentSelectedRow == index"></span>
+                    </td>
+                    <td v-if="showColumnCheckbox" class="center w20"><div class="check-action"><input type="checkbox" :value="dataItem[dataKeyField]" class="check" v-model="selectedValues"><span class="name"></span></div></td>
+                    <td v-for="column in columns">
+                        {{ dataItem[column.fieldName] }}
+                    </td>
+                </tr> -->
+      </tbody>
+      <tfoot v-if="columns.filter(x => x.hasOwnProperty('isSum') || x.hasOwnProperty('isSumText')).length > 0">
+        <tr>
+          <td></td>
+          <td v-if="showColumnCheckbox"></td>
+          <td v-for="column in columns">
+            <input v-if="column.isSumText" type="text" class="form-control" :placeholder="column.isSumText" disabled/>
+            <input v-if="column.isSumSelected" type="text" class="form-control text-right" :value="counteSelectedRows" disabled/>
+            <input v-else-if="column.isSum == true" type="text" class="form-control text-right" :value="sumField(column.fieldName,column.sumTotal)" disabled/>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+  <div class="tc-pagination" v-if="allowPaging">
+    <button @click="firstPage()" :disabled="currentPageIndex == 0" class="btn one-arrow-left-forward"></button>
+    <button @click="previousPage()" :disabled="currentPageIndex == 0" class="btn fa fa-angle-double-left"></button>
+    <button @click="doSelectNearby(false)" class="btn fa fa-angle-left"></button>
+    <span class="text">Bản ghi</span>
+    <div class="dropdown inline">
+      <div class="fw6 input-number" data-toggle="dropdown">
+        <span class="text-main">{{dataItems.length > 0 ? getSelectedRow : 0 }}</span>/{{ rowCount }}
+      </div>
+      <div class="dropdown-menu">
+        <button @click="setPageSize(10)" class="dropdown-item">10</button>
+        <button @click="setPageSize(20)" class="dropdown-item">20</button>
+        <button @click="setPageSize(50)" class="dropdown-item">50</button>
+        <button @click="setPageSize(100)" class="dropdown-item">100</button>
+      </div>
+    </div>
+    <button @click="doSelectNearby(true)" class="btn fa fa-angle-right"></button>
+    <button @click="nextPage()" :disabled="currentPageIndex >= pageCount - 1"
+      class="btn fa fa-angle-double-right"></button>
+    <button @click="lastPage()" :disabled="currentPageIndex >= pageCount - 1"
+      class="btn one-arrow-right-forward"></button>
+  </div>
+</div>

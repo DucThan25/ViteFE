@@ -1,0 +1,56 @@
+<div class="login-wrapper">
+  <div class="logo">
+    <div class="img">
+      <img src="@/assets/img/logo.svg" alt="">
+    </div>
+    <div style="color: #FFF; display: inline-block;">
+      Điều hành sản xuất kinh doanh tập trung
+    </div>
+  </div>
+  <div class="bg" :style="{ backgroundImage: 'url(/bg.svg)' }"></div>
+  <div class="box-login">
+    <div class="head">
+      {{formTitle}}
+    </div>
+    <div class="form">
+      <div class="form-group" v-if="!stepOTP">
+        <div class="input-icon">
+          <input type="text" placeholder="Tên đăng nhập" v-model.trim="username" class="form-control" @keyup.enter="btnLogin_Click">
+          <span class="nc-icon-outline users_single-03 icon"></span>
+        </div>
+      </div>
+      <div class="form-group" v-if="!stepOTP">
+        <div class="input-icon -show">
+          <input v-model="password" type="password" name="password" placeholder="Mật khẩu" class="form-control" @keyup.enter="btnLogin_Click">
+          <span class="nc-icon-outline ui-1_lock icon"></span>
+          <!-- <span class="icon-show fa  fa-eye"></span> -->
+        </div>
+      </div>
+      <div class="form-group group-hinhthuc" v-if="!stepOTP">
+        <div class="check-action">
+          <input type="checkbox" class="check" v-model="authType" />
+          <span class="name">Đăng nhập qua xác thực tập đoàn</span>
+        </div>
+      </div>
+      <div class="form-group" v-if="stepOTP">
+        <div class="input-icon -captcha">
+          <input v-model.trim="otpValue" type="text" placeholder="Mã OTP" class="form-control" @keyup.enter="btnXacNhanOTP_Click">
+          <span class="icon nc-icon-outline gestures_pin"></span>
+          <button class="btn btn-light refresh" @click="btnResetOTP_Click">Lấy lại mã OTP</button>
+        </div>
+      </div>
+      <div class="form-group error" v-if="formError">
+        <div v-if="loginFailedAccount">&bull; Tên truy cập hoặc mật khẩu không hợp lệ!</div>
+        <div v-if="loginFailedOTP">&bull; Số OTP không hợp lệ!</div>
+      </div>
+      <div class="acts">
+        <button class="btn btn-primary btn-login" @click="btnLogin_Click" v-if="!stepOTP">Đăng nhập</button>
+        <button class="btn btn-outline-light" @click="btnDungTaiKhoanKhac_Click" v-if="stepOTP">Dùng tài khoản khác</button>
+        <button class="btn btn-primary" @click="btnXacNhanOTP_Click" v-if="stepOTP">Xác nhận</button>
+      </div>
+    </div>
+  </div>
+  <div class="copyright">
+    VNPT-IT &copy; 2021
+  </div>
+</div>
